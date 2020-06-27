@@ -1,0 +1,32 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: iothub-to-table
+  labels:
+    name: iothub-to-table
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iothub-to-table-deployment
+  namespace: iothub-to-table
+spec:
+  selector:
+    matchLabels:
+      app: iothub-to-table
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: iothub-to-table
+    spec:
+      containers:
+      - name: iothub-to-table
+        image: kongou/iothub-to-table:latest
+        env:
+        - name: comsumerGroup
+          value: "$Default"
+        - name: ioThubConnectionString
+          value: ""
+        - name: tableConnectionString
+          value: ""
